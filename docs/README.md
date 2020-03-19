@@ -5,11 +5,7 @@ In the paper with the name of "Synesthesia: Detecting Screen Content via Remote 
 This sound can be picked by the microphones built into screens, and with a machine learning model one can infer, for example, which website the victim is visiting.
 We propose to counteract this vulnerability by either masking the frequency range of the sound produced by the screens with noise, or by actively canceling the sounds.
 
-Participants:
-
 * Julian de Gortari Briseno
-
-* Edward Saad
 
 ## Prior Literature
 
