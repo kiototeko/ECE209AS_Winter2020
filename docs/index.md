@@ -3,6 +3,7 @@
 ## Abstract
 
 On the research paper with the title of **Synesthesia: Detecting Screen Content via Remote Acoustic Side Channels** by Daniel Genkin, Mihir Pattani, Roei Schuster and Eran Tromer, it is shown that subtle acoustic noises emanating from within computer LCD screens can be used to detect the content displayed on those same screens. This sound can be picked up easily by built-in microphones in laptop computers, and with a Convolutional Neural Network (CNN) classifier, one can infer, for example, which websites the victim was browsing.
+
 In this work, we propose a way to counteract this vulnerability, by masking the audible leakage signal with high-pass filtered white noise. We show that by doing this we can reduce down to two thirds the chances of the attacker obtaining informative samples to infer the screen content. We also discover that not all LCD displays emit the same amplitude modulated signals as described on the paper referenced above, so a procedure to deal with these particularities is shown.
 
 ### Participants:
@@ -12,10 +13,11 @@ In this work, we propose a way to counteract this vulnerability, by masking the 
 ## Introduction
 
 Previous work demonstrated that it is possible to capture electromagnetic signals that emanate from computer screens and make a good inference of what the screen is displaying ([[1](#references)]), as video lines are transmitted from the video controller to the LCD screen via a serial interface which radiates energy that can be captured by a nearby antenna. But by recording the sound made by the screen, you can also make a good guess. LCD screens with both CCFL and LED backlighting have been shown to have the same information leakage ([[2](#references)]). The information that is filtrated by this side-channel can only be obtained from a limited range of frequencies that happen to be in practically the upper limit of the human audible range (~20 kHz). The attacker only needs to get access either to the victim’s computer internal microphone, to a nearby smartphone’s microphone, or he can even extract the desired audio range by recording the output audio from a webcam call to the victim. As the relationship between the sound produced by the LCD screen's power supply and the colors represented in each of the pixel lines displayed on screen is a very complex one, a CNN model trained with a set of audio samples taken from specific graphic displays are needed to make the inferences.
+
 A countermeasure is proposed here in order to prevent an attacker from obtaining sensitive information. The defense mechanism consists of masking the sound made by the screen using high-pass filtered white noise. In [[3](#references)] a defense system correlates the user's movements with its keyboard and mouse activity, and in case of finding a mismatch, it deauthenticates the user from the system. Because the victim can log into one system and then change temporarily to another one, an attacker could get into the first one and mimic the victim's movements to maintain access. If there are no visible cues, the attacker can perform the hijacking by only listening to the sound made by the victim pressing keys, so a sound masking system is used to make it difficult for the attacker to succeed on this. In our work, we use a similar sound masking system, but in our case, the leakage sound is in a frequency range imperceptible to the user, and it doesn't require that much effort from the attacker to perform the screen content inference, by just having a recorder close to the victim's computer screen he can perform the attack.
 Biamp Systems have created some devices engineered to mask speech ([[4](#references)]), devices that are installed at different points in offices, for example, so as to preserve privacy and reduce overall office noise. What we want to do in our work is to generate the sound masking from the same laptop were the leakage is produced, and obviously, we deal with a higher frequency range, but we are also trying to ensure that the noise isn’t heard by the user so that he doesn't become annoyed by it. 
-In this work we only focus on the case of the attacker having direct access to the internal microphone of the victim’s laptop, as this is the most extreme case that could happen, and the insights obtained here should apply to the other situations. In [[2](#references)] they deal with website distinguishing, on-screen keyboard snooping and text extraction, but in this work we only focus on the first one, website distinguishing.
 
+In this work we only focus on the case of the attacker having direct access to the internal microphone of the victim’s laptop, as this is the most extreme case that could happen, and the insights obtained here should apply to the other situations. In [[2](#references)] they deal with website distinguishing, on-screen keyboard snooping and text extraction, but in this work we only focus on the first one, website distinguishing.
 
 
 ### System specifications
@@ -31,17 +33,17 @@ The first phase in this project was dedicated to the replication of the experime
 
 5-second audio samples were obtained from a set of 3 websites ([apple.com](apple.com), [www.google.com/search?q=h](www.google.com/search?q=h), [youtube.com](youtube.com)) by using the Selenium module in python, which automates the action of web browsers, in this case making the web browser iterate between each one of the websites. 1200 samples were obtained in total for training by recording audio when each website was displayed, and 300 samples were obtained for testing. Of the samples obtained for training only 450 were useful (150 from each website), and from the testing set only 223 samples were useful. 50 samples were used for each level of noise tested. The audio samples were obtained with a sample rate of 96kHz and stored in a signed 32 bit WAVE file format (in [[2](#references)] they recorded audio with a sample rate of 192 kHz). The audio recordings were made inside a wooden closet in order to reduce perturbation from environmental noise.
 
-|Apple website | 
-|:--:|
-|![apple](https://raw.githubusercontent.com/kiototeko/ECE209AS_Winter2020/master/images/apple.png) |
-|:--:|
-|Google website | 
-|:--:|
-|![google](https://raw.githubusercontent.com/kiototeko/ECE209AS_Winter2020/master/images/google.png) | 
-|:--:|
-|Youtube website |
-|:--:|
-|![youtube](https://raw.githubusercontent.com/kiototeko/ECE209AS_Winter2020/master/images/youtube.png)|
+**Screenshot of Apple's website**
+
+![apple](https://raw.githubusercontent.com/kiototeko/ECE209AS_Winter2020/master/images/apple.png) 
+
+**Screenshot of Google's website**
+
+![google](https://raw.githubusercontent.com/kiototeko/ECE209AS_Winter2020/master/images/google.png) 
+
+**Screenshot of Youtube's website**
+
+![youtube](https://raw.githubusercontent.com/kiototeko/ECE209AS_Winter2020/master/images/youtube.png)
 
 
 ### Extracting the signal
@@ -67,7 +69,11 @@ As there were audio samples where the chunks simply didn't correlate strongly, o
 
 ## Evaluation
 
-High-pass filtered white noise was produced using SoX and it was played by the computer's speakers using 6 different sound pressure levels while recording new rounds of 5-second audio samples, each round containing 50 of these audio samples for each of the three websites. Sound level isn't given in an absolute scale in computers, in the [Strengths and weaknesses](#strengths-and-weaknesses) section we give a more detailed explanation about this. Here, a 0 dB sound level means the maximum output sound level the speakers can produce. By using an Android App called **Sound Meter** by KTW Apps, a rough estimate was obtained at a 0 dB noise output sound level, corresponding to a ~45 dB level relative to the human auditory lower threshold. The noise levels used in this work were attenuated compared to the 0 dB maximum volume, the attenuations used where the following: -29 dB, -37 dB, -44 dB, -51 dB, -59 dB, -66 dB and -73 dB. These levels corresponded to what our system defined as 60%, 50%, 40%, 30%, 20%, 10% and 1% of output sound levels, respectively. -51 dB (30%) was the faintest noise that could be heard putting our ear at the level of the microphone (21 cm above the speakers), and -73 dB (60%) was a level that was felt to be at the limit of the comfortable for a user. Signal-to-noise ratio was calculated by getting the average power of both the signals with noise and those without it, subtracting the two results to get the noise power, and computing the corresponding ratio. Also, it was considered important to show that the effects of the noisy samples were not apparent only on the classifier accuracy, but that the number of samples that could be processed successfully dropped significantly, from a total of 150, by the chunking algorithm based on Pearson correlation. The results are shown in the next graphs:
+High-pass filtered white noise was produced using SoX and it was played by the computer's speakers using 6 different sound pressure levels while recording new rounds of 5-second audio samples, each round containing 50 of these audio samples for each of the three websites. Sound level isn't given in an absolute scale in computers, in the [Strengths and weaknesses](#strengths-and-weaknesses) section we give a more detailed explanation about this. Here, a 0 dB sound level means the maximum output sound level the speakers can produce. By using an Android App called **Sound Meter** by KTW Apps, a rough estimate was obtained at a 0 dB noise output sound level, corresponding to a ~45 dB level relative to the human auditory lower threshold. The noise levels used in this work were attenuated compared to the 0 dB maximum volume, the attenuations used where the following: -29 dB, -37 dB, -44 dB, -51 dB, -59 dB, -66 dB and -73 dB. These levels corresponded to what our system defined as 60%, 50%, 40%, 30%, 20%, 10% and 1% of output sound levels, respectively. -51 dB (30%) was the faintest noise that could be heard putting our ear at the level of the microphone (21 cm above the speakers), and -29 dB (60%) was a level that was felt to be at the limit of the comfortable for a user. A sample with -29 dB of noise can be seen in the next image:
+
+![sample with noise](https://raw.githubusercontent.com/kiototeko/ECE209AS_Winter2020/master/images/sampleWithNoise.png)
+
+Signal-to-noise ratio was calculated by getting the average power of both the signals with noise and those without it, subtracting the two results to get the noise power, and computing the corresponding ratio. Also, it was considered important to show that the effects of the noisy samples were not apparent only on the classifier accuracy, but that the number of samples that could be processed successfully dropped significantly, from a total of 150, by the chunking algorithm based on Pearson correlation. The results are shown in the next graphs:
 
 **Number of audio samples successfully processed by chunking algorithm vs. sound level of white noise generated**
 
@@ -86,6 +92,7 @@ What can be infered from the first two graphs is that the greatest drop on both 
 ## Strengths and weaknesses
 
 By using a barely audible white noise signal, one can make it harder for an attacker to obtain an audio sample that could be used to infer screen content, specifically, it reduces down by two thirds the possibilites of the attacker on obtaining the required samples. Considering the scenario where the attacker already has access to the internal microphone, this doesn't really affect him as he has plenty of time to record more samples, but it may affect his capacity to get a detailed account of all websites visited by the victim. Even then, the accuracy of the classifier is affected at some point in all cases and the attacker could be taking a wild guess by using its model in a high noise environment. A good defense mechanism would need to ensure that it's almost impossible to obtain good quality samples or that the accuracy of the classifier is lower than taking random guesses.
+
 What this work discovered is that not all LCD screens produce a perfect AM signal for the attacker to easily demodulate, in our case we had to implement a Costas Loop to recover the carrier. It was maybe because of the noise introduced by this process, or some noise produced by the unique characteristics of our screen, that we couldn't obtain high correlations between chunks of the signals, and it was because of it that our base model didn't had as high an accuracy as in [[2](#references)]. We also need to remark that we only tested our defense with 3 websites, out of 100 which the original paper used. In fact, we initially wanted to use 5 websites, but we discovered that in two of the five websites the chunking algorithm just couldn't process any of the samples we had obtained.
 
 ### Notes on sound level
@@ -95,6 +102,7 @@ Sound pressure level (SPL) is usually used to measure local pressure deviation f
 ## Future work
 
 There's plenty of room for improvement in any of the proposed defense mechanism's parts. First, while using sound masking proves to affect accuracy of the classifier and even more the processing of the sound samples by the chunking algorithm, it isn't foolproof. The model the attacker uses could be trained with noisy samples so that it cuts through our intended defense. Work could be done in perfecting the process we have layed down here, from measuring with more precision the noise levels to get better insights, to having a better filtering of the noise and changing the filtering frequency range so that even when increasing the noise sound level, it stays inaudible to humans and they don't become annoyed by it. Others could try to implement an active noise controlling mechanism, so that there's no problem about the user having to sustain listening to white noise at great volumes.
+
 Testing this work on computer screens that present an audible leakage signal that doesn't require carrier recovery would also be a good follow up, as it would be the exact same conditions as in [[2](#references)]. Finally, audio samples need to be taken while the computer screen is showing more websites than the three that were chosen in here.
 
 ## References
