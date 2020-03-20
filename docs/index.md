@@ -85,7 +85,7 @@ Signal-to-noise ratio was calculated by getting the average power of both the si
 
 **Classifier test set accuracy vs. sound level of white noise generated**
 
-![accuracy](https://raw.githubusercontent.com/kiototeko/ECE209AS_Winter2020/master./images/accuracy.png)
+![accuracy](https://raw.githubusercontent.com/kiototeko/ECE209AS_Winter2020/master/images/accuracy.png)
 
 What can be infered from the first two graphs is that the greatest drop on both the number of useful samples and the SNR is registered when changing the noise level from -59 dB to -51 dB, which is the point where the lowest human audible noise was registered, and surely, where webcam microphones start becoming more sensitive. Playing band limited white noise at this level wouldn't then be such a nuisance for people. The third graph shows that the level of noise generated isn't strongly correlated with the classifier accuracy. The first two graphs take into account the 150 samples used while the last graph only takes into account the number of samples succesfully processed, so it may not be that accurate. For example, at -51 dB, an accuracy of 78% was obtained, but we need to consider that only 55 samples could be used to test this case as that was the number of successfully processed samples (almost only a third of the original number of samples).
 
