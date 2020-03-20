@@ -26,7 +26,10 @@ The first phase in this project was dedicated to the replication of the experime
 
 ### Obtaining samples
 
-5-second audio samples were obtained from a set of 3 websites (apple.com, www.google.com/search?q=h, youtube.com) by using the Selenium module in python, which automates the action of web browsers, in this case making the web browser iterate between each one of the websites. 1200 samples were obtained in total for training by recording audio when each website was displayed, and 300 samples were obtained for testing. 50 samples were used for each level of noise tested. The audio samples were obtained with a sample rate of 96kHz and stored in a signed 32 bit WAVE file format (in the original experiment they recorded with a sample rate of 192 kHz). The audio recordings were made inside a wooden closet in order to prevent perturbation from environmental noise.
+5-second audio samples were obtained from a set of 3 websites ([apple.com](apple.com), [www.google.com/search?q=h](www.google.com/search?q=h), [youtube.com](youtube.com)) by using the Selenium module in python, which automates the action of web browsers, in this case making the web browser iterate between each one of the websites. 1200 samples were obtained in total for training by recording audio when each website was displayed, and 300 samples were obtained for testing. Of the samples obtained for training only 450 were useful (150 from each website), and from the testing set only 223 samples were useful. 50 samples were used for each level of noise tested. The audio samples were obtained with a sample rate of 96kHz and stored in a signed 32 bit WAVE file format (in the original experiment they recorded with a sample rate of 192 kHz). The audio recordings were made inside a wooden closet in order to prevent perturbation from environmental noise.
+
+![apple](images/apple.png) ![google](images/google.png) ![youtube](images/youtube.png)
+
 
 ### Extracting the signal
 
@@ -54,11 +57,15 @@ As there were audio samples were the chunks simply didn't correlate strongly, on
 Band limited white noise was produced using SoX and it was played by the computer's speakers using 6 different sound pressure levels while recording new rounds of 5-second audio samples, each round containing 50 of these audio samples for each of the three websites. Sound level isn't given in an absolute scale in computers, in the weaknesses section we give a more detailed explanation about this. A 0 dB level means the maximum output sound level the speakers can produce, and a rough estimate, using an Android App called "Sound Meter" by KTW Apps, shows that the noise output produced by one of our scripts at that sound level corresponds to ~45 dB relative to the human auditory threshold. The noise levels used in this work were attenuated compared to the 0 dB maximum volume, the attenuations used where the following: -29 dB, -37 dB, -44 dB, -51 dB, -59 dB, -66 dB and -73 dB. These levels correspond to what our system deems as 60%, 50%, 40%, 30%, 20%, 10% and 1% of output sound levels. -51 dB (30%) was the faintest noise that could be heard putting our ear at the level of the microphone (21 cm above the speakers), and -73 dB (60%) was a level that was felt to be at the limit of the comfortable. Signal-to-noise ratio was calculated by getting the average power of both the signals with noise and those without it, subtracting the two results to get the noise power, and computing the corresponding ratio. Also, it was considered important to show that the effects of the noisey samples were not apparent only on the classifier output, but that the number of samples that could be processed succesfuly, from a total of 150, by the algorithm that uses Pearson correlation dropped significantly. The results are shown in the next graphs:
 
 
-What can be infered from the first two graphs is that the greatest drop on overall accuracy of the attacker is registered when changing the noise level from -59 dB to -51 dB, which is the point where the lowest human audible noise was registered, so playing band limited white noise at this level wouldn't be such a nuisance for people. The first two graphs take into account the 150 samples used while the last graph only takes into account the number of samples succesfully processed, so it may not be that informative, because, for example, at -51 dB an accuracy of 78% was obtained but only for the 55 samples that could be processed (almost only a third of the original samples).
+![number of samples](../images/numbersamples.png)
+![snr](images/snr.png)
+![accuracy](images/accuracy.png)
+
+What can be infered from the first two graphs is that the greatest drop on overall accuracy of the attacker is registered when changing the noise level from -59 dB to -51 dB, which is the point where the lowest human audible noise was registered, so playing band limited white noise at this level shouldn't be such a nuisance for people. The first two graphs take into account the 150 samples used while the last graph only takes into account the number of samples succesfully processed, so it may not be that informative, because, for example, at -51 dB an accuracy of 78% was obtained but only for the 55 samples that could be processed (almost only a third of the original samples).
 
 ### Strengths and weaknesses
 
-By using a barely audible whitenoise signal, one can make it harder for an attacker to obtain an audio sample that could be used to infer screen content, specifically, it reduces down to a third the possibilites of the attacker on obtaining the required sample. Considering the scenario where the attacker already has access to the internal microphone, this doesn't really affect him as he has plenty of time to record more samples. Even then, the accuracy of the classifier isn't particularly high, and if we are to believe the results we got for accuracy, there doesn't seem to be a strong relationship between number of samples and this last metric, so by using the attack described in the original paper, the attacker would be taking a wild guess. A good defense mechanism would need to ensure that it's almost impossible to obtain good quality samples or that the accuracy of the classifier is lower than taking random guesses.
+By using a barely audible whitenoise signal, one can make it harder for an attacker to obtain an audio sample that could be used to infer screen content, specifically, it reduces down by two thirds the possibilites of the attacker on obtaining the required sample. Considering the scenario where the attacker already has access to the internal microphone, this doesn't really affect him as he has plenty of time to record more samples. Even then, the accuracy of the classifier isn't particularly high, and if we are to believe the results we got for accuracy, there doesn't seem to be a strong relationship between number of samples and this last metric, so by using the attack described in the original paper, the attacker would be taking a wild guess. A good defense mechanism would need to ensure that it's almost impossible to obtain good quality samples or that the accuracy of the classifier is lower than taking random guesses.
 What this work discovered is that not all LCD screens produce a perfect AM signal for the attacker to easily demodulate, in our case we had to implement a Costas Loop to recover the carrier. It was maybe because of the noise introduced by this process that we couldn't obtain high correlations between chunks of the signals and our base model didn't had an accuracy as the original one. It is also to note that we only tested our defense with 3 websites, out of 100 which the original paper used. In fact, we initially wanted to use 5 websites, but we discovered that in two of the three websites the algorithm just couldn't process any of the samples we had obtained.
 
 ### Notes on sound level
@@ -72,11 +79,16 @@ Testing this work on computer screens that present an audible leakage signal tha
 
 ## References
 
-* [Synesthesia: Detecting Screen Content via Remote Acoustic Side Channels](https://www.cs.tau.ac.il/~tromer/synesthesia/synesthesia.pdf)
+* Daniel Genkin, Mihir Pattani, Roei Schuster, Eran Tromer. (2018). [Synesthesia: Detecting Screen Content via Remote Acoustic Side Channels](https://www.cs.tau.ac.il/~tromer/synesthesia/synesthesia.pdf)
 
-* [Electromagnetic Eavesdropping Risks of Flat-Panel Displays](https://www.cl.cam.ac.uk/~mgk25/pet2004-fpd.pdf)
+* Markus G. Kuhn. (2004). [Electromagnetic Eavesdropping Risks of Flat-Panel Displays](https://www.cl.cam.ac.uk/~mgk25/pet2004-fpd.pdf)
 
-* [YELP: Masking Sound-based Opportunistic Attacks in Zero-Effort Deauthentication](https://dl.acm.org/doi/abs/10.1145/3098243.3098259)
+* Prakash Shrestha, S Abhishek Anand, Nitesh Saxena. (2017). [YELP: Masking Sound-based Opportunistic Attacks in Zero-Effort Deauthentication](https://dl.acm.org/doi/abs/10.1145/3098243.3098259)
 
-https://www.toa.eu/service/soundcheck/calculations-with-loudspeakers/
-https://en.wikipedia.org/wiki/Sound_pressure
+* TOA Electronics. [Calculations with loudspeakers](https://www.toa.eu/service/soundcheck/calculations-with-loudspeakers/)
+
+* [Sound pressure](https://en.wikipedia.org/wiki/Sound_pressure)
+
+* Biamp Systems. [Sound Masking 101](https://cambridgesound.com/learn/sound-masking-101/)
+
+
