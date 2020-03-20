@@ -56,9 +56,16 @@ As there were audio samples were the chunks simply didn't correlate strongly, on
 
 Band limited white noise was produced using SoX and it was played by the computer's speakers using 6 different sound pressure levels while recording new rounds of 5-second audio samples, each round containing 50 of these audio samples for each of the three websites. Sound level isn't given in an absolute scale in computers, in the weaknesses section we give a more detailed explanation about this. A 0 dB level means the maximum output sound level the speakers can produce, and a rough estimate, using an Android App called "Sound Meter" by KTW Apps, shows that the noise output produced by one of our scripts at that sound level corresponds to ~45 dB relative to the human auditory threshold. The noise levels used in this work were attenuated compared to the 0 dB maximum volume, the attenuations used where the following: -29 dB, -37 dB, -44 dB, -51 dB, -59 dB, -66 dB and -73 dB. These levels correspond to what our system deems as 60%, 50%, 40%, 30%, 20%, 10% and 1% of output sound levels. -51 dB (30%) was the faintest noise that could be heard putting our ear at the level of the microphone (21 cm above the speakers), and -73 dB (60%) was a level that was felt to be at the limit of the comfortable. Signal-to-noise ratio was calculated by getting the average power of both the signals with noise and those without it, subtracting the two results to get the noise power, and computing the corresponding ratio. Also, it was considered important to show that the effects of the noisey samples were not apparent only on the classifier output, but that the number of samples that could be processed succesfuly, from a total of 150, by the algorithm that uses Pearson correlation dropped significantly. The results are shown in the next graphs:
 
+Number of audio samples successfully processed by chunking algorithm vs. sound level of white noise generated
 
 ![number of samples](../images/numbersamples.png)
+
+Average signal-to-noise ratio of audio samples vs. sound level of white noise generated
+
 ![snr](../images/snr.png)
+
+Classifier test set accuracy vs. sound level of white noise generated
+
 ![accuracy](../images/accuracy.png)
 
 What can be infered from the first two graphs is that the greatest drop on overall accuracy of the attacker is registered when changing the noise level from -59 dB to -51 dB, which is the point where the lowest human audible noise was registered, so playing band limited white noise at this level shouldn't be such a nuisance for people. The first two graphs take into account the 150 samples used while the last graph only takes into account the number of samples succesfully processed, so it may not be that informative, because, for example, at -51 dB an accuracy of 78% was obtained but only for the 55 samples that could be processed (almost only a third of the original samples).
