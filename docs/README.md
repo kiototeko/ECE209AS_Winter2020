@@ -26,7 +26,9 @@ The first phase in this project was dedicated to the replication of the experime
 
 5-second audio samples were obtained from a set of 3 websites ([apple.com](apple.com), [www.google.com/search?q=h](www.google.com/search?q=h), [youtube.com](youtube.com)) by using the Selenium module in python, which automates the action of web browsers, in this case making the web browser iterate between each one of the websites. 1200 samples were obtained in total for training by recording audio when each website was displayed, and 300 samples were obtained for testing. Of the samples obtained for training only 450 were useful (150 from each website), and from the testing set only 223 samples were useful. 50 samples were used for each level of noise tested. The audio samples were obtained with a sample rate of 96kHz and stored in a signed 32 bit WAVE file format (in the original experiment they recorded with a sample rate of 192 kHz). The audio recordings were made inside a wooden closet in order to prevent perturbation from environmental noise.
 
-![apple](../images/apple.png "Apple website") ![google](../images/google.png) ![youtube](../images/youtube.png)
+Apple website | Google website | Youtube website
+:--:|:--:|:--:
+![apple](../images/apple.png) | ![google](../images/google.png) | ![youtube](../images/youtube.png)
 
 
 ### Extracting the signal
