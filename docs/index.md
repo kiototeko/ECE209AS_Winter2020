@@ -28,7 +28,7 @@ The first phase in this project was dedicated to the replication of the experime
 
 Apple website | Google website | Youtube website
 :--:|:--:|:--:
-![apple](/images/apple.png) | ![google](https://github.com/kiototeko/ECE209AS_Winter2020/tree/master/images/google.png) | ![youtube](../images/youtube.png)
+![apple](/images/apple.png) | ![google](https://raw.githubusercontent.com/kiototeko/ECE209AS_Winter2020/master/images/google.png) | ![youtube](../images/youtube.png)
 
 <img src="images/apple.png" alt="hi" class="inline"/>
 <img src="../images/apple.png" alt="hi" class="inline"/>
