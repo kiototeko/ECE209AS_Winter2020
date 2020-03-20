@@ -31,9 +31,17 @@ The first phase in this project was dedicated to the replication of the experime
 
 5-second audio samples were obtained from a set of 3 websites ([apple.com](apple.com), [www.google.com/search?q=h](www.google.com/search?q=h), [youtube.com](youtube.com)) by using the Selenium module in python, which automates the action of web browsers, in this case making the web browser iterate between each one of the websites. 1200 samples were obtained in total for training by recording audio when each website was displayed, and 300 samples were obtained for testing. Of the samples obtained for training only 450 were useful (150 from each website), and from the testing set only 223 samples were useful. 50 samples were used for each level of noise tested. The audio samples were obtained with a sample rate of 96kHz and stored in a signed 32 bit WAVE file format (in [[2](#references)] they recorded audio with a sample rate of 192 kHz). The audio recordings were made inside a wooden closet in order to reduce perturbation from environmental noise.
 
-Apple website | Google website | Youtube website
-:--:|:--:|:--:
-![apple](https://raw.githubusercontent.com/kiototeko/ECE209AS_Winter2020/master/images/apple.png) | ![google](https://raw.githubusercontent.com/kiototeko/ECE209AS_Winter2020/master/images/google.png) | ![youtube](https://raw.githubusercontent.com/kiototeko/ECE209AS_Winter2020/master/images/youtube.png)
+|Apple website | 
+|:--:|
+|![apple](https://raw.githubusercontent.com/kiototeko/ECE209AS_Winter2020/master/images/apple.png) |
+|:--:|
+|Google website | 
+|:--:|
+|![google](https://raw.githubusercontent.com/kiototeko/ECE209AS_Winter2020/master/images/google.png) | 
+|:--:|
+|Youtube website |
+|:--:|
+|![youtube](https://raw.githubusercontent.com/kiototeko/ECE209AS_Winter2020/master/images/youtube.png)|
 
 
 ### Extracting the signal
@@ -61,15 +69,15 @@ As there were audio samples where the chunks simply didn't correlate strongly, o
 
 High-pass filtered white noise was produced using SoX and it was played by the computer's speakers using 6 different sound pressure levels while recording new rounds of 5-second audio samples, each round containing 50 of these audio samples for each of the three websites. Sound level isn't given in an absolute scale in computers, in the [Strengths and weaknesses](#strengths-and-weaknesses) section we give a more detailed explanation about this. Here, a 0 dB sound level means the maximum output sound level the speakers can produce. By using an Android App called **Sound Meter** by KTW Apps, a rough estimate was obtained at a 0 dB noise output sound level, corresponding to a ~45 dB level relative to the human auditory lower threshold. The noise levels used in this work were attenuated compared to the 0 dB maximum volume, the attenuations used where the following: -29 dB, -37 dB, -44 dB, -51 dB, -59 dB, -66 dB and -73 dB. These levels corresponded to what our system defined as 60%, 50%, 40%, 30%, 20%, 10% and 1% of output sound levels, respectively. -51 dB (30%) was the faintest noise that could be heard putting our ear at the level of the microphone (21 cm above the speakers), and -73 dB (60%) was a level that was felt to be at the limit of the comfortable for a user. Signal-to-noise ratio was calculated by getting the average power of both the signals with noise and those without it, subtracting the two results to get the noise power, and computing the corresponding ratio. Also, it was considered important to show that the effects of the noisy samples were not apparent only on the classifier accuracy, but that the number of samples that could be processed successfully dropped significantly, from a total of 150, by the chunking algorithm based on Pearson correlation. The results are shown in the next graphs:
 
-Number of audio samples successfully processed by chunking algorithm vs. sound level of white noise generated
+**Number of audio samples successfully processed by chunking algorithm vs. sound level of white noise generated**
 
-![number of samples](https://raw.githubusercontent.com/kiototeko/ECE209AS_Winter2020/master./images/numbersamples.png)
+![number of samples](https://raw.githubusercontent.com/kiototeko/ECE209AS_Winter2020/master/images/numbersamples.png)
 
-Average signal-to-noise ratio of audio samples vs. sound level of white noise generated
+**Average signal-to-noise ratio of audio samples vs. sound level of white noise generated**
 
 ![snr](https://raw.githubusercontent.com/kiototeko/ECE209AS_Winter2020/master/images/snr.png)
 
-Classifier test set accuracy vs. sound level of white noise generated
+**Classifier test set accuracy vs. sound level of white noise generated**
 
 ![accuracy](https://raw.githubusercontent.com/kiototeko/ECE209AS_Winter2020/master./images/accuracy.png)
 
@@ -84,7 +92,7 @@ What this work discovered is that not all LCD screens produce a perfect AM signa
 
 Sound pressure level (SPL) is usually used to measure local pressure deviation from the ambient atmospheric pressure caused by a sound wave ([[6](#references)]). The sound pressure level produced by computer speakers depends on the power given to them and the distance between them and the listener ([[7](#references)]). Applied to our project, this measurement would have given us an absolute measure of the magnitude of the noise produced, for example. But a calibrated instrument is necessary to measure SPL, and the integrated laptop's microphone apparently is not calibrated, and even if it was, there is no datasheet where we could find the characteristics of the audio speakers for the computer we used. That's the reason why the decibel readings obtained from the computer's OS cannot be referenced to a specific value, like 20 micropascals, the faintest sound a human can hear. 
 
-### Future work
+## Future work
 
 There's plenty of room for improvement in any of the proposed defense mechanism's parts. First, while using sound masking proves to affect accuracy of the classifier and even more the processing of the sound samples by the chunking algorithm, it isn't foolproof. The model the attacker uses could be trained with noisy samples so that it cuts through our intended defense. Work could be done in perfecting the process we have layed down here, from measuring with more precision the noise levels to get better insights, to having a better filtering of the noise and changing the filtering frequency range so that even when increasing the noise sound level, it stays inaudible to humans and they don't become annoyed by it. Others could try to implement an active noise controlling mechanism, so that there's no problem about the user having to sustain listening to white noise at great volumes.
 Testing this work on computer screens that present an audible leakage signal that doesn't require carrier recovery would also be a good follow up, as it would be the exact same conditions as in [[2](#references)]. Finally, audio samples need to be taken while the computer screen is showing more websites than the three that were chosen in here.

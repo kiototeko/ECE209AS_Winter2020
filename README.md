@@ -10,10 +10,10 @@ In this work, we propose a way to counteract this vulnerability, by masking the 
 
 ## About the code
 
-In *code/SignalExtract* is all the code used for processing the audio samples, from filtering and demodulating the AM signal, to running the chunking algorithm and getting the averaged chunk. *newCosstas.m* is the program used for this, while *snr.m* was used to get the SNR of the sets of samples.
+* In *code/SignalExtract* is all the code used for processing the audio samples, from filtering and demodulating the AM signal, to running the chunking algorithm and getting the averaged chunk. *newCosstas.m* is the program used for this, while *snr.m* was used to get the SNR of the sets of samples.
 
-*code/getWebsites.py* was used to get the audio samples from each website, and later it was also used to play the white noise.
+* *code/getWebsites.py* was used to get the audio samples from each website, and later it was also used to play the white noise.
 
-*code/noise_command.sh* is the Bash command used to produce our high-pass filtered noise.
+* *code/noise_command.sh* is the Bash command used to produce our high-pass filtered noise.
 
-*code/cnn.py* is where the CNN model is.
+* *code/cnn.py* is where the CNN model is.
