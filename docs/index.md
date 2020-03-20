@@ -30,6 +30,8 @@ Apple website | Google website | Youtube website
 :--:|:--:|:--:
 ![apple](images/apple.png) | ![google](../images/google.png) | ![youtube](../images/youtube.png)
 
+<img src="images/apple.png" alt="hi" class="inline"/>
+<img src="../images/apple.png" alt="hi" class="inline"/>
 
 ### Extracting the signal
 
