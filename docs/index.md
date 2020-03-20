@@ -28,7 +28,7 @@ The first phase in this project was dedicated to the replication of the experime
 
 Apple website | Google website | Youtube website
 :--:|:--:|:--:
-![apple](../images/apple.png) | ![google](../images/google.png) | ![youtube](../images/youtube.png)
+![apple](images/apple.png) | ![google](../images/google.png) | ![youtube](../images/youtube.png)
 
 
 ### Extracting the signal
