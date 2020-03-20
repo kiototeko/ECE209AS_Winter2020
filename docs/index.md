@@ -1,4 +1,4 @@
-# ECE209AS_Winter2020
+# Guarding against Screen Content Detection via Remote Acoustic Side Channels
 
 ## Abstract
 On the research paper with the title of "Synesthesia: Detecting Screen Content via Remote Acoustic Side Channels" by Daniel Genkin, Mihir Pattani, Roei Schuster and Eran Tromer, it is shown that subtle acoustic noises emanating from within computer LCD screens can be used to detect the content displayed on those same screens. This sound can be picked up easily by the microphone built into the screens, and with a Convolutional Neural Network (CNN) classifier, one can infer, for example, which website the victim was browsing.
@@ -28,7 +28,7 @@ The first phase in this project was dedicated to the replication of the experime
 
 Apple website | Google website | Youtube website
 :--:|:--:|:--:
-![apple](images/apple.png) | ![google](../images/google.png) | ![youtube](../images/youtube.png)
+![apple](/images/apple.png) | ![google](https://github.com/kiototeko/ECE209AS_Winter2020/tree/master/images/google.png) | ![youtube](../images/youtube.png)
 
 <img src="images/apple.png" alt="hi" class="inline"/>
 <img src="../images/apple.png" alt="hi" class="inline"/>
@@ -83,21 +83,23 @@ Sound pressure level (SPL) is usually used to measure local pressure deviation f
 
 ### Future work
 
-There's plenty of room for improvement in many of the proposed defense parts. First, while using sound masking proves to affect accuracy of the classifier and even more the processing of the sound samples, it isn't foolproof. Work could be done in perfecting the process we have layed down here, from measuring with more precision the noise levels, to having a better filtering of the noise or changing the filtering frequency range so that even when increasing its sound level, it stays inaudible to humans. Other work could try to implement an active noise controlling mechanism, so that there's no problem about the user having to sustain hearing whitenoise at great volumes.
+There's plenty of room for improvement in many of the proposed defense parts. First, while using sound masking proves to affect accuracy of the classifier and even more the processing of the sound samples, it isn't foolproof. The model the attacker uses could be trained with noisy samples so that it's more robust towards our intended defense. Work could be done in perfecting the process we have layed down here, from measuring with more precision the noise levels, to having a better filtering of the noise or changing the filtering frequency range so that even when increasing its sound level, it stays inaudible to humans. Other work could try to implement an active noise controlling mechanism, so that there's no problem about the user having to sustain hearing whitenoise at great volumes.
 Testing this work on computer screens that present an audible leakage signal that doesn't require carrier recovery would also be a good follow up, as it would be the exact same conditions as in the original work. Finally, audio samples need to be taken while the computer screen is showing more websites than the three that were choosed in here.
 
 ## References
 
-* Daniel Genkin, Mihir Pattani, Roei Schuster, Eran Tromer. (2018). [Synesthesia: Detecting Screen Content via Remote Acoustic Side Channels](https://www.cs.tau.ac.il/~tromer/synesthesia/synesthesia.pdf)
+[1] Daniel Genkin, Mihir Pattani, Roei Schuster, Eran Tromer. (2018). [Synesthesia: Detecting Screen Content via Remote Acoustic Side Channels](https://www.cs.tau.ac.il/~tromer/synesthesia/synesthesia.pdf)
 
-* Markus G. Kuhn. (2004). [Electromagnetic Eavesdropping Risks of Flat-Panel Displays](https://www.cl.cam.ac.uk/~mgk25/pet2004-fpd.pdf)
+[2] Markus G. Kuhn. (2004). [Electromagnetic Eavesdropping Risks of Flat-Panel Displays](https://www.cl.cam.ac.uk/~mgk25/pet2004-fpd.pdf)
 
-* Prakash Shrestha, S Abhishek Anand, Nitesh Saxena. (2017). [YELP: Masking Sound-based Opportunistic Attacks in Zero-Effort Deauthentication](https://dl.acm.org/doi/abs/10.1145/3098243.3098259)
+[3] Prakash Shrestha, S Abhishek Anand, Nitesh Saxena. (2017). [YELP: Masking Sound-based Opportunistic Attacks in Zero-Effort Deauthentication](https://dl.acm.org/doi/abs/10.1145/3098243.3098259)
 
-* TOA Electronics. [Calculations with loudspeakers](https://www.toa.eu/service/soundcheck/calculations-with-loudspeakers/)
+[4] Xuan Chi. (2002). [Experiment 5. Carrier Recovery Using a Second Order Costas Loop](http://read.pudn.com/downloads80/doc/project/307210/CarrierRecoveryUsingaSecondOrderCostasLoop.pdf)
 
-* [Sound pressure](https://en.wikipedia.org/wiki/Sound_pressure)
+[5] TOA Electronics. [Calculations with loudspeakers](https://www.toa.eu/service/soundcheck/calculations-with-loudspeakers/)
 
-* Biamp Systems. [Sound Masking 101](https://cambridgesound.com/learn/sound-masking-101/)
+[6] [Sound pressure](https://en.wikipedia.org/wiki/Sound_pressure)
+
+[7] Biamp Systems. [Sound Masking 101](https://cambridgesound.com/learn/sound-masking-101/)
 
 
